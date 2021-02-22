@@ -1,0 +1,135 @@
+body{
+    background-color: #0f0f1e;
+}
+body div {
+    font:14px/1.5 numFont,PingFangSC-Regular,Tahoma,Microsoft Yahei,sans-serif
+}
+::-webkit-scrollbar { /* 滚动条宽 */
+    width: 8px;
+    /* height: 4px; */
+}
+::-webkit-scrollbar-thumb { /* 滚动条 拖动条 */
+    background-color: rgb(23 24 34);
+    border-radius: 6px;
+}
+::-webkit-scrollbar-track { /* 滚动条背景槽 */
+    background-color: rgba(0,0,0,.2);
+    border-radius: 6px;
+}
+.site-head{
+    height: 68px;
+}
+.player-box{
+    padding-left: 0;
+}
+.content-box{
+    background-color: #292a3c;
+    height: max-content;
+    border-radius: 10px;
+}
+.player{
+    margin-top: 4px;
+    margin-left: 4px;
+    width: 100%;
+    height: 377px;
+    
+}
+.web-nav{
+    /* position: relative;
+    top: 22px;
+    left:100px; */
+    /* margin-top: 22px;
+    margin-left: 100px; */
+    display: inline-block;
+}
+.src_input{
+    /* margin-top: 22px; */
+    /* margin-left: 20px; */
+    display: inline-block;
+    border:3px;
+    background-color:#292a3c;
+    border-radius:10px;
+    width: max-content;
+}
+#search-input{
+    width: 350px;
+    outline-style: none;
+    border:0px;
+    margin:6px 6px 6px 6px;
+    background: #f8f8f52f;
+    border-radius: 5px;
+}
+.channel_nav{
+    height: 26px;
+    width: 30px;
+    margin-right: 12px;
+    line-height: 26px;
+    color: aliceblue;
+}
+.channel_nav:hover{
+    color: orange;
+}
+#title{
+    margin-top: 20px;
+    color: aliceblue;
+}
+.select-search-container{
+    padding-top: 28px;
+    padding-bottom: 28px;
+    width: max-content;
+    /* position: relative;
+    left: 100px; */
+    color: aliceblue;
+    
+}
+#select-info{
+    display: inline-block;
+}
+#jk{
+    display: inline-block;
+    width: 300px;
+    background: #ffffff9c;
+}
+.item-group{
+    margin-top: 28px;
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.item-btn{
+    border-radius: 15px;
+    background-color: #292a3c;
+    border:none;
+    color: aliceblue;
+    /* margin-top: 20px; */
+    margin: 6px;
+    height: 27px;
+    width: 37px;
+}
+
+.item-btn:hover{
+    background-color: #0f0f1e;
+    color: #ff5c38;
+    transition-duration: 0.4s;
+}
+
+
+.title{
+    font: 20px;
+}
+#parse-btn{
+    background: #f25b20;
+    border: none;
+    margin-right: 5px;
+    width: 70px;
+    color: aliceblue;
+    border-radius: 4px;
+}
+#parse-btn:hover{
+    background-color: #ff183e;
+    transition-duration: 0.4s;
+}
+.header{
+    /* margin-left: 100px; */
+    margin-top: 22px;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <title>Video Tool</title>
+</head>
+
+<body>
+    <div class="site-head">
+        <div class="header offset-md-1">
+            <div class="web-nav">
+                <a class="channel_nav" href="https://v.qq.com/" target="_blank">腾讯视频</a>
+                <a class="channel_nav" href=""><del>爱奇艺</del></a>
+                <a class="channel_nav" href=""><del>优酷</del></a>
+                <a class="channel_nav" href=""><del>芒果TV</del></a>
+                <!-- <a class="channel_nav" href=""><del></del>搜狐</a> -->
+            </div>
+            <div class="src_input offset-md-1">                 
+                    <input type="search" name="" id="search-input">
+                    <button id="parse-btn" onclick="parse()">解析</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-player col-md-10 offset-md-1">
+        <div class="row content-box">
+            <div class="col-md-8 player-box">
+
+                <!-- <iframe class="player" align="center"
+                        src="https://www.playm3u8.cn/jiexi.php?url=https://v.qq.com/x/cover/mzc00200nj35rnt.html"
+                        allowfullscreen='true'></iframe> -->
+                <iframe class="player" align="center" src="" allowfullscreen='true'></iframe>
+                <div class="select-search-container offset-md-2">
+                    <div id="select-info">
+                        解析引擎选择：
+                    </div>
+                    <select class="form-control input-lg" id="jk">
+                        <option value="https://www.playm3u8.cn/jiexi.php?url=" selected="">④号通用vip引擎系统【稳定通用】</option> 
+                        <option value="http://17kyun.com/api.php?url=" selected="">③号通用vip引擎系统【稳定通用】</option>
+                        <option value="https://api.kk06.top/?url=" selected="">②号通用vip引擎系统【无广告】</option>
+                        <option value="https://17kyun.com/jx.php?url=" selected="">①号通用vip引擎系统【稳定通用】</option> 
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="row">
+                    <div id="title">栏目列表</div>
+                </div>
+                <div class="row">
+                    <div class="item-group">
+                        
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
