@@ -6,6 +6,7 @@ import logging
 import logging.handlers
 import time
 from visited_db import VisitedDB
+import json
 
 logging.basicConfig(level=logging.INFO)
 filehandler=logging.handlers.TimedRotatingFileHandler("./log/logger.log",'D',1,30)
@@ -32,7 +33,7 @@ def getItemList():
     contr = Controller(url)
     items = contr.getInfo()
     # print(items)
-    return items
+    return json.dumps(items)
     # render_template('main.html',items=items)
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80)

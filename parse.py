@@ -2,9 +2,19 @@ import requests
 import pyperclip
 from bs4 import BeautifulSoup as bs
 from functools import wraps
+import logging
+import re
+from collections import OrderedDict
+import time
+import json
+
+logging.basicConfig(level=logging.INFO)
 
 def get_html(url):
-    with requests.get(url) as req:
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
+    }
+    with requests.get(url, headers=headers) as req:
         # print(req.headers['content-type'])
         req.encoding = 'utf-8'
         return req.text
@@ -55,7 +65,7 @@ def tencent_tv(url):
 # @parse
 def tencent_video_zongyi(url):
     host = 'https://v.qq.com'
-    urls = {}
+    urls = OrderedDict()
     html = get_html(url)
     soup = bs(html, 'lxml')
 
@@ -71,9 +81,46 @@ def tencent_video_zongyi(url):
             print('[error]: ',title," url为空！")
     return urls
 
+def iqiyi_zongyi(url):
+    
+    html = get_html(url)
+    soup = bs(html,'lxml')
+    a = soup.find('div',id='rightPlayList')
+    b = a.find_all('li',class_='play-list-item')
+    
+    
+    items = OrderedDict()
+    for item in b:
+        idn = item['data-td']
+        title = item.find('a')['title']
+        items[idn]=title
+    
+    play_url_host = 'https://pcw-api.iqiyi.com/video/video/baseinfo/'
+
+    urls = OrderedDict()
+    for idn in items:
+        title = items[idn]
+        text = get_html(play_url_host+idn)
+        play_url = re.search(r'"playUrl":"(.+)","issueTime":', text).group(1)
+        urls[title] = play_url
+    
+    return urls
+
+def iqiyi_tv(url):
+    html = get_html(url)
+    aid_num = re.search(r'"albumId":(.+),"albumName"',html).group(1)
+    
+    play_url='https://pcw-api.iqiyi.com/albums/album/avlistinfo?aid={}&page=1&size=1000'.format(aid_num)
+
+    json_ = json.loads(get_html(play_url))
+
+    items = OrderedDict()
+    for a in json_['data']['epsodelist']:
+        items[a['name']] = a['playUrl']
+    
+    return items
+
 if __name__ == '__main__':
-    # get_html('https://v.qq.com/x/cover/mzc00200lmp89ps.html')
-    #令人心动的offer
-    tencent_video_zongyi('https://v.qq.com/x/cover/mzc00200lmp89ps.html')
-    #tencent_video_zongyi('https://v.qq.com/x/cover/mzc0020049ijejf/b0035j0tgo0.html?')
-    # tencent_tv('https://v.qq.com/x/cover/mzc00200x9fxrc9.html')
+    url = 'https://www.iqiyi.com/v_19vub7y9ztk.html'
+    # print(iqiyi_tv(url))
+    print(iqiyi_tv(url))
