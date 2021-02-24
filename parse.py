@@ -119,8 +119,35 @@ def iqiyi_tv(url):
         items[a['name']] = a['playUrl']
     
     return items
+def youku_tv(url):
+    #anthology-content
+    html = get_html(url)
+    soup = bs(html,'lxml')
+    a = soup.find('div',class_='anthology-content')
+    b = a.find_all('a')
+    
+    items=OrderedDict()
+    for item in b:
+        play_url = item['href']
+        title  = item['title']
+        items[title] = play_url
+
+    return items
+def youku_zongyi(url):
+    html = get_html(url)
+    soup = bs(html,'lxml')
+    a = soup.find('div',class_='anthology-content')
+    b = a.find_all('div',class_='pic-text-item')
+    
+    items = OrderedDict()
+    for item in b:
+        title = item['title']
+        play_url = item.find('a')['href']
+        items[title] = play_url
+    
+    return items
 
 if __name__ == '__main__':
-    url = 'https://www.iqiyi.com/v_19vub7y9ztk.html'
+    url = 'https://v.youku.com/v_show/id_XNDk4NDU5Mjc2OA==.html?spm=a2ha1.14919748_WEBZY_JINGXUAN.drawer5.d_zj1_3&s=bdcc45adf8924abab9f6&scm=20140719.apircmd.5596.show_bdcc45adf8924abab9f6&s=bdcc45adf8924abab9f6'
     # print(iqiyi_tv(url))
-    print(iqiyi_tv(url))
+    print(youku_zongyi(url))

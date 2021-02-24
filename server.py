@@ -36,4 +36,5 @@ def getItemList():
     return json.dumps(items)
     # render_template('main.html',items=items)
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=80)
+    # app.run(host='0.0.0.0',port=80) #云服务器
+    app.run() #本地

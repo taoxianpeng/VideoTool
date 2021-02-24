@@ -20,13 +20,16 @@ class Controller():
         '''
         tencent_host = 'https://v.qq.com'
         iqiyi_host = 'https://www.iqiyi.com'
+        youku_host = 'https://v.youku.com/'
 
         if tencent_host in self.url:
             return self.__tencent_video()
-        if iqiyi_host in self.url:
+        elif iqiyi_host in self.url:
             return self.__iqiyi_video()
-        
-        return 
+        elif youku_host in self.url:
+            return self.__youku_video()
+        else:
+            return 
     def __tencent_video(self,):
         '''
         腾讯视频综艺和电视剧之类有区别
@@ -51,7 +54,17 @@ class Controller():
             return parse.iqiyi_tv(self.url)
         if '动漫' in a:
             return parse.iqiyi_tv(self.url)
-            
+
+    def __youku_video(self,):
+        html = parse.get_html(self.url)
+        a = re.search(r'catName:(.+),\s+seconds',html).group(1)
+        if '综艺' in a:
+            return parse.youku_zongyi(self.url)
+        if '电视剧' in a:
+            return parse.youku_tv(self.url)
+        if '动漫' in a:
+            return parse.youku_tv(self.url)
+
 if __name__ == '__main__':
     url = r'https://v.qq.com/x/cover/mzc00200pl9jhvr.html'
     controller = Controller(url)
