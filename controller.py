@@ -20,7 +20,8 @@ class Controller():
         '''
         tencent_host = 'https://v.qq.com'
         iqiyi_host = 'https://www.iqiyi.com'
-        youku_host = 'https://v.youku.com/'
+        youku_host = 'https://v.youku.com'
+        mgtv_host= 'https://www.mgtv.com'
 
         if tencent_host in self.url:
             return self.__tencent_video()
@@ -28,6 +29,8 @@ class Controller():
             return self.__iqiyi_video()
         elif youku_host in self.url:
             return self.__youku_video()
+        elif mgtv_host in self.url:
+            return self.__mgtv_video()
         else:
             return 
     def __tencent_video(self,):
@@ -64,7 +67,9 @@ class Controller():
             return parse.youku_tv(self.url)
         if '动漫' in a:
             return parse.youku_tv(self.url)
-
+    def __mgtv_video(self,):
+        #解析综艺
+        return parse.mgtv_zongyi(self.url)
 if __name__ == '__main__':
     url = r'https://v.qq.com/x/cover/mzc00200pl9jhvr.html'
     controller = Controller(url)

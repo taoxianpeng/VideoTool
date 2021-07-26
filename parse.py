@@ -146,8 +146,28 @@ def youku_zongyi(url):
         items[title] = play_url
     
     return items
+def mgtv_zongyi(url):
+    vid = url.split('/')[-1].split('.')[0]
+    videolist_json_url = 'https://pcweb.api.mgtv.com/list/master?vid='+vid
+    videolist_json_str = get_html(videolist_json_url)
+    videolist_json = json.loads(videolist_json_str)
 
+    videolists = videolist_json['data']['list']
+    # for vl in videolists:
+    #     print('标题',vl['t1'])
+    #     print('video_id',vl['video_id'])
+
+    items = OrderedDict()
+    for item in videolists:
+        title = item['t1']
+        clip_id = item['clip_id']
+        video_id=item['video_id']
+        play_url = 'https://www.mgtv.com/b/'+clip_id+'/'+video_id+'.html'
+        items[title] = play_url
+    return items
+    
 if __name__ == '__main__':
-    url = 'https://v.youku.com/v_show/id_XNDk4NDU5Mjc2OA==.html?spm=a2ha1.14919748_WEBZY_JINGXUAN.drawer5.d_zj1_3&s=bdcc45adf8924abab9f6&scm=20140719.apircmd.5596.show_bdcc45adf8924abab9f6&s=bdcc45adf8924abab9f6'
+    url = 'https://www.mgtv.com/b/364464/12731458.html?fpa=15801&fpos=6&lastp=ch_home'
     # print(iqiyi_tv(url))
-    print(youku_zongyi(url))
+    print(mgtv_zongyi(url))
+    # mgtv_zongyi(url)
