@@ -47,7 +47,7 @@ def parse(get_video_urls_func):
 
 # @parse
 def tencent_tv(url):
-    cid = re.search(r'/cover/(.*).html',url).group(1)
+    cid = re.split(r'/|\.',url)[7]
     host='https://v.qq.com'
     urls={}
     #获取lists的json数据
@@ -68,8 +68,8 @@ def tencent_tv(url):
         for item in items_json:
             item = item["item_params"]
             title = item["union_title"]
-            # https://v.qq.com/x/cover/mzc00200lxzhhqz.html
-            play_url = host+'/x/cover/'+cid+'.html'
+            # https://v.qq.com/x/cover/mzc00200lxzhhqz/[vid].html
+            play_url = host+'/x/cover/'+cid+'/'+item['vid']+'.html'
             urls[title] = play_url
         
         return urls
