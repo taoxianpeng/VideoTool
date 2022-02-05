@@ -8,6 +8,8 @@ from collections import OrderedDict
 import time
 import json
 
+from requests.api import post
+
 logging.basicConfig(level=logging.INFO)
 
 def get_html(url):
@@ -45,24 +47,39 @@ def parse(get_video_urls_func):
 
 # @parse
 def tencent_tv(url):
+    cid = re.split(r'/|\.',url)[7]
     host='https://v.qq.com'
     urls={}
-    html=get_html(url)
-    soup=bs(html,'lxml')
-    episode=soup.find('div',class_='mod_episode')
-    a_items = episode.find_all('a')
-    for a_item in a_items:
-        url_=host+a_item['href']
-        #去除字符串的空格和换行符
-        title =a_item.string.replace('\n','').replace(' ','')
-        # print(title)
-        if url_ != '':
-            urls[title]=url_
-        else:
-            print('[error]: ',title," url为空！")
+    #获取lists的json数据
+    #获取数据的url是通用的
+    post_url = 'https://pbaccess.video.qq.com/trpc.universal_backend_service.page_server_rpc.PageServer/GetPageData?video_appid=3000010&vplatform=2'
+    headers = {
+        'referer':'https://v.qq.com/',
+        'cookie':'tvfe_boss_uuid=421d9ae056149d9b; pgv_pvid=9157042206; vversion_name=8.2.95; video_omgid=; video_guid=75c15f79deb327d0; video_platform=2; pgv_info=ssid=s837149268',
+        'content-type':'application/json'
+    }
+
+    request_payload = '{"page_params":{"req_from":"web","page_type":"detail_operation","page_id":"vsite_episode_list","id_type":"1","cid":"'+cid+'","page_num":"","page_size":"100","page_context":""},"has_cache":1}'
+    try:
+        return_json = requests.post(url=post_url,data=request_payload,headers=headers)
+        items_json = return_json.json()["data"]["module_list_datas"][0]["module_datas"][0]["item_data_lists"]["item_datas"]   
+ 
+        urls = OrderedDict()
+        for item in items_json:
+            item = item["item_params"]
+            title = item["union_title"]
+            # https://v.qq.com/x/cover/mzc00200lxzhhqz/[vid].html
+            play_url = host+'/x/cover/'+cid+'/'+item['vid']+'.html'
+            urls[title] = play_url
+        
+        return urls
+    except Exception as e:
+        print(e)
+    
+
     return urls
 
-# @parse
+#@parse
 def tencent_video_zongyi(url):
     host = 'https://v.qq.com'
     urls = OrderedDict()
@@ -153,9 +170,6 @@ def mgtv_zongyi(url):
     videolist_json = json.loads(videolist_json_str)
 
     videolists = videolist_json['data']['list']
-    # for vl in videolists:
-    #     print('标题',vl['t1'])
-    #     print('video_id',vl['video_id'])
 
     items = OrderedDict()
     for item in videolists:
@@ -167,7 +181,7 @@ def mgtv_zongyi(url):
     return items
     
 if __name__ == '__main__':
-    url = 'https://www.mgtv.com/b/364464/12731458.html?fpa=15801&fpos=6&lastp=ch_home'
+    url = 'https://v.qq.com/x/cover/mzc00200lxzhhqz.html'
     # print(iqiyi_tv(url))
-    print(mgtv_zongyi(url))
+    print(tencent_tv(url))
     # mgtv_zongyi(url)

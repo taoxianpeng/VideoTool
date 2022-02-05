@@ -71,6 +71,6 @@ class Controller():
         #解析综艺
         return parse.mgtv_zongyi(self.url)
 if __name__ == '__main__':
-    url = r'https://v.qq.com/x/cover/mzc00200pl9jhvr.html'
+    url = r'https://www.mgtv.com/b/364464/12731458.html?fpa=15801&fpos=6&lastp=ch_home'
     controller = Controller(url)
     print(controller.getInfo())

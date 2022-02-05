@@ -33,6 +33,7 @@ def getItemList():
     contr = Controller(url)
     items = contr.getInfo()
     # print(items)
+    
     return json.dumps(items)
     # render_template('main.html',items=items)
 if __name__ == '__main__':
