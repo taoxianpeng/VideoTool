@@ -1,3 +1,4 @@
 visitedDB.db
 *.pyc
 *.log
+__pycache__/
